@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Найти экспертов</title>
+    <script>
+        let currentPage = 0;
+        const pageSize = 10;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadExperts(currentPage, pageSize);
+        });
+
+        // Загрузка экспертов с учетом пагинации
+        async function loadExperts(page, size) {
+            const resultsDiv = document.getElementById('results');
+            try {
+                const response = await fetch(`/experts?page=${page}&size=${size}`);
+                const experts = await response.json();
+
+                if (experts.length === 0) {
+                    resultsDiv.innerHTML = '<tr><td colspan="5">Нет данных для отображения</td></tr>';
+                    return;
+                }
+
+                updateTable(experts);
+                updatePagination(experts.length); // Обновление пагинации
+            } catch (error) {
+                console.error("Ошибка загрузки данных:", error);
+                resultsDiv.innerHTML = '<tr><td colspan="5">Ошибка загрузки данных.</td></tr>';
+            }
+        }
+
+        // Поиск экспертов
+        async function searchExperts() {
+            const query = document.getElementById('searchInput').value;
+            const resultsDiv = document.getElementById('results');
+
+            if (query.length < 1) {
+                loadExperts(currentPage, pageSize); // Если поле пустое, показываем всех экспертов
+                return;
+            }
+
+            try {
+                const response = await fetch(`/search?query=${query}`);
+                const experts = await response.json();
+
+                if (experts.length === 0) {
+                    resultsDiv.innerHTML = '<tr><td colspan="5">Ничего не найдено</td></tr>';
+                    return;
+                }
+
+                updateTable(experts);
+                updatePagination(experts.length); // Обновление пагинации
+            } catch (error) {
+                console.error("Ошибка при поиске:", error);
+                resultsDiv.innerHTML = '<tr><td colspan="5">Ошибка поиска. Попробуйте снова.</td></tr>';
+            }
+        }
+
+        // Обновление таблицы с данными
+        function updateTable(experts) {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = experts.map(expert => `
+            <tr>
+                <td>${expert.name}</td>
+                <td>${expert.surname}</td>
+                <td>${expert.scientifiсDirection}</td>
+                <td>${expert.specialization}</td>
+                <td>
+                    <a class="action-link" href="/findExperts/edit/${expert.id}">Редактировать</a> |
+                    <a class="action-link delete" href="/delete/${expert.id}" onclick="return confirm('Вы уверены, что хотите удалить этого эксперта?')">Удалить</a>
+                    <a class="action-link" href="/download/${expert.id}">Скачать PDF</a>
+                </td>
+            </tr>
+        `).join('');
+        }
+
+        // Обновление пагинации
+        function updatePagination(totalItems) {
+            const paginationDiv = document.getElementById('pagination');
+            paginationDiv.innerHTML = ''; // Очистить старые кнопки
+
+            const totalPages = Math.ceil(totalItems / pageSize);
+            if (currentPage > 0) {
+                const prevButton = document.createElement('button');
+                prevButton.innerText = 'Предыдущие';
+                prevButton.onclick = () => loadPage(currentPage - 1);
+                paginationDiv.appendChild(prevButton);
+            }
+
+            if (currentPage < totalPages - 1) {
+                const nextButton = document.createElement('button');
+                nextButton.innerText = 'Следующие';
+                nextButton.onclick = () => loadPage(currentPage + 1);
+                paginationDiv.appendChild(nextButton);
+            }
+        }
+
+        // Загрузка страницы
+        function loadPage(page) {
+            currentPage = page;
+            loadExperts(currentPage, pageSize);
+        }
+    </script>
+
+    <!DOCTYPE html>
+    <html lang="ru">
+    <head>
+        <meta charset="UTF-8">
+        <title>Найти экспертов</title>
+        <script>
+            let currentPage = 0;
+            const pageSize = 10;
+
+            document.addEventListener('DOMContentLoaded', () => {
+                loadExperts(currentPage, pageSize);
+            });
+
+            // Загрузка экспертов с учетом пагинации
+            async function loadExperts(page, size) {
+                const resultsDiv = document.getElementById('results');
+                try {
+                    const response = await fetch(`/experts?page=${page}&size=${size}`);
+                    const experts = await response.json();
+
+                    if (experts.length === 0) {
+                        resultsDiv.innerHTML = '<tr><td colspan="5">Нет данных для отображения</td></tr>';
+                        return;
+                    }
+
+                    updateTable(experts);
+                    updatePagination(); // Обновление пагинации
+                } catch (error) {
+                    console.error("Ошибка загрузки данных:", error);
+                    resultsDiv.innerHTML = '<tr><td colspan="5">Ошибка загрузки данных.</td></tr>';
+                }
+            }
+
+            // Поиск экспертов
+            async function searchExperts() {
+                const query = document.getElementById('searchInput').value;
+                const resultsDiv = document.getElementById('results');
+
+                if (query.length < 1) {
+                    loadExperts(currentPage, pageSize); // Если поле пустое, показываем всех экспертов
+                    return;
+                }
+
+                try {
+                    const response = await fetch(`/search?query=${query}`);
+                    const experts = await response.json();
+
+                    if (experts.length === 0) {
+                        resultsDiv.innerHTML = '<tr><td colspan="5">Ничего не найдено</td></tr>';
+                        return;
+                    }
+
+                    updateTable(experts);
+                    updatePagination(); // Обновление пагинации
+                } catch (error) {
+                    console.error("Ошибка при поиске:", error);
+                    resultsDiv.innerHTML = '<tr><td colspan="5">Ошибка поиска. Попробуйте снова.</td></tr>';
+                }
+            }
+
+            // Обновление таблицы с данными
+            function updateTable(experts) {
+                const resultsDiv = document.getElementById('results');
+                resultsDiv.innerHTML = experts.map(expert => `
+            <tr>
+                <td>${expert.name}</td>
+                <td>${expert.surname}</td>
+                <td>${expert.scientifiсDirection}</td>
+                <td>${expert.specialization}</td>
+                <td>
+                    <a class="action-link" href="/findExperts/edit/${expert.id}">Редактировать</a> |
+                    <a class="action-link delete" href="/delete/${expert.id}" onclick="return confirm('Вы уверены, что хотите удалить этого эксперта?')">Удалить</a>
+                </td>
+            </tr>
+        `).join('');
+            }
+
+            // Обновление пагинации
+            function updatePagination() {
+                const paginationDiv = document.getElementById('pagination');
+                paginationDiv.innerHTML = ''; // Очистить старые кнопки
+
+                // Делаем запрос для получения общего количества экспертов
+                fetch(`/experts/count`)
+                    .then(response => response.json())
+                    .then(totalItems => {
+                        const totalPages = Math.ceil(totalItems / pageSize);
+
+                        // Создаем кнопки пагинации
+                        if (currentPage > 0) {
+                            const prevButton = document.createElement('button');
+                            prevButton.innerText = 'Предыдущие';
+                            prevButton.onclick = () => loadPage(currentPage - 1);
+                            paginationDiv.appendChild(prevButton);
+                        }
+
+                        // Добавляем номера страниц
+                        for (let i = 0; i < totalPages; i++) {
+                            const pageButton = document.createElement('button');
+                            pageButton.innerText = i + 1;
+                            pageButton.onclick = () => loadPage(i);
+                            if (i === currentPage) {
+                                pageButton.disabled = true; // Делаем текущую страницу неактивной
+                            }
+                            paginationDiv.appendChild(pageButton);
+                        }
+
+                        // Кнопка следующей страницы
+                        if (currentPage < totalPages - 1) {
+                            const nextButton = document.createElement('button');
+                            nextButton.innerText = 'Следующие';
+                            nextButton.onclick = () => loadPage(currentPage + 1);
+                            paginationDiv.appendChild(nextButton);
+                        }
+                    })
+                    .catch(error => console.error('Ошибка при получении общего числа экспертов:', error));
+            }
+
+            // Загрузка страницы
+            function loadPage(page) {
+                currentPage = page;
+                loadExperts(currentPage, pageSize);
+            }
+        </script>
+
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f4f4f9;
+                margin: 0;
+                padding: 20px;
+            }
+
+            .buttons {
+                display: flex;
+            }
+
+            h1 {
+                text-align: center;
+                color: #333;
+            }
+
+            form {
+                margin: 20px auto;
+                max-width: 600px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            input[type="text"] {
+                width: 300px;
+                padding: 10px;
+                font-size: 14px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+            }
+
+            button {
+                padding: 10px 20px;
+                font-size: 14px;
+                color: #fff;
+                background-color: #007bff;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                transition: background-color 0.3s ease;
+            }
+
+            button:hover {
+                background-color: #0056b3;
+            }
+
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                margin: 20px auto;
+                background-color: #fff;
+            }
+
+            th, td {
+                padding: 10px;
+                text-align: left;
+                border: 1px solid #ddd;
+            }
+
+            th {
+                background-color: #007bff;
+                color: #fff;
+            }
+
+            tbody tr:nth-child(even) {
+                background-color: #f2f2f2;
+            }
+
+            tbody tr:hover {
+                background-color: #e9ecef;
+            }
+
+            .homeButt {
+                width: 50px;
+                height: 50px;
+                padding: 0;
+                font-size: 16px;
+                color: #fff;
+                background-color: #007bff;
+                border: none;
+                cursor: pointer;
+                transition: background-color 0.3s ease;
+                position: absolute;
+                top: 20px;
+                left: 20px;
+                border-radius: 50%;
+            }
+
+            .homeButt:before {
+                content: "🏠";
+                font-size: 24px;
+                display: block;
+                text-align: center;
+                line-height: 50px;
+            }
+
+            .homeForm {
+                position: absolute;
+                top: 20px;
+                left: 20px;
+                width: 50px;
+                height: 50px;
+            }
+
+            /* Стиль для ссылок "Редактировать" и "Удалить" */
+            .action-link {
+                color: #007bff;
+                text-decoration: none;
+                padding: 5px 10px;
+                border-radius: 4px;
+                transition: background-color 0.3s ease, color 0.3s ease;
+            }
+
+            .action-link:hover {
+                background-color: #007bff;
+                color: #fff;
+            }
+
+            .action-link.delete {
+                background-color: #dc3545;
+                color: white;
+            }
+
+            .action-link.delete:hover {
+                background-color: #c82333;
+            }
+        </style>
+    </head>
+    <body>
+
+    <form class="homeForm" action="/" method="get">
+        <button class="homeButt" type="submit"></button>
+    </form>
+
+    <h1>Поиск экспертов</h1>
+
+    <div class="buttons">
+        <form onsubmit="return false;">
+            <input type="text" id="searchInput" name="keyword" placeholder="Введите ключевое слово" oninput="searchExperts()">
+        </form>
+    </div>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Имя</th>
+            <th>Фамилия</th>
+            <th>Научное направление</th>
+            <th>Специализация</th>
+            <th>Действия</th>
+        </tr>
+        </thead>
+        <tbody id="results">
+        <!-- Данные будут загружаться сюда -->
+        </tbody>
+    </table>
+
+    <div id="pagination" class="pagination">
+        <button onclick="changePage(0)">Первая</button>
+        <button onclick="changePage(currentPage - 1)" id="prevBtn">Предыдущая</button>
+        <button onclick="changePage(currentPage + 1)" id="nextBtn">Следующая</button>
+        <button onclick="changePage(totalPages - 1)">Последняя</button>
+    </div>
+
+    <script>
+        let currentPage = 0;
+        let totalPages = 0;
+
+        // Функция для изменения страницы
+        function changePage(page) {
+            if (page >= 0 && page < totalPages) {
+                loadPage(page);
+            }
+        }
+
+        // Загрузка новой страницы данных
+        async function loadPage(page) {
+            const searchQuery = document.getElementById('searchInput').value;
+            const url = searchQuery ? `/search?query=${searchQuery}&page=${page}&size=10` : `/experts?page=${page}&size=10`;
+
+            const response = await fetch(url);
+            const data = await response.json();
+            totalPages = data.totalPages;
+            currentPage = data.number;
+            updateTable(data.content);
+            updatePagination();
+        }
+
+        // Обновление таблицы с новыми данными
+        function updateTable(experts) {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = experts.map(expert => `
+            <tr>
+                <td>${expert.name}</td>
+                <td>${expert.surname}</td>
+                <td>${expert.scientifiсDirection}</td>
+                <td>${expert.specialization}</td>
+                <td>
+                    <a class="action-link" href="/findExperts/edit/${expert.id}">Редактировать</a> |
+                    <a class="action-link delete" href="/delete/${expert.id}" onclick="return confirm('Вы уверены, что хотите удалить этого эксперта?')">Удалить</a>
+                </td>
+            </tr>
+        `).join('');
+        }
+
+        // Обновление пагинации
+        function updatePagination() {
+            // Обновление состояния кнопок "Предыдущая" и "Следующая"
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+
+            prevBtn.disabled = currentPage === 0;
+            nextBtn.disabled = currentPage === totalPages - 1;
+        }
+
+        // Загрузка данных при инициализации страницы
+        window.onload = () => loadPage(0);
+    </script>
+
+    </body>
+    </html>

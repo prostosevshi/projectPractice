@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Редактировать эксперт</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            position: relative; /* Для позиционирования кнопки относительно родителя */
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-right: 20px;
+        }
+
+        form {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        input[type="text"] {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #007bff;
+            border: none;
+            border-radius: 4px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+        </style>
+</head>
+<body>
+
+<h1>Редактировать данные эксперта</h1>
+
+<form th:action="@{/findExperts/update/{id}(id=${expert.id})}" method="post">
+    <label for="name">Имя:</label>
+    <input type="text" id="name" name="name" th:value="${expert.name}" required>
+
+    <label for="surname">Фамилия:</label>
+    <input type="text" id="surname" name="surname" th:value="${expert.surname}" required>
+
+    <label for="scientifiсDirection">Научное направление:</label>
+    <input type="text" id="scientifiсDirection" name="scientifiсDirection" th:value="${expert.scientifiсDirection}" required>
+
+    <label for="specialization">Специализация:</label>
+    <input type="text" id="specialization" name="specialization" th:value="${expert.specialization}" required>
+
+    <button type="submit">Сохранить изменения</button>
+</form>
+
+</body>
+</html>
