@@ -20,48 +20,50 @@ public class ExpertController {
     @Autowired
     private ExpertService expertService;
 
-    @GetMapping("/delete/{id}")
-    public String deleteExpert(@PathVariable Long id) {
-        expertService.deleteExpert(id);
-        return "redirect:/findExperts";
+    @GetMapping("/addExperts")
+    public String showCreateForm() {
+        return "createForm";
     }
 
-    @GetMapping("/findExperts/edit/{id}")
+    @GetMapping("/edit/{id}")
     public String showEditForm(@PathVariable Long id, Model model) {
         ScientificExpert expert = expertService.getExpertById(id);
+
+        // Генерация fullName на основе имени и фамилии
+        String fullName = expert.getName() + " " + expert.getSurname();
+        expert.setFullName(fullName);
+
         model.addAttribute("expert", expert);
         return "editExpert";  // Страница редактирования
     }
 
-    @PostMapping("/findExperts/update/{id}")
-    public String updateExpert(@PathVariable Long id, @RequestParam String name, @RequestParam String surname,
+    @PostMapping("/update/{id}")
+    public String updateExpert(@PathVariable Long id, @RequestParam String fullName,
                                @RequestParam String scientifiсDirection, @RequestParam String specialization) {
         ScientificExpert expert = expertService.getExpertById(id);
-        expert.setName(name);
-        expert.setSurname(surname);
+        expert.setFullName(fullName);
         expert.setScientifiсDirection(scientifiсDirection);
         expert.setSpecialization(specialization);
 
         expertService.saveExpert(expert);  // Сохраняем обновленные данные
-        return "redirect:/findExperts";
+        return "redirect:/";
     }
 
-    @GetMapping("/experts")
-    @ResponseBody
-    public List<ScientificExpert> getExperts(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
-        return expertService.getExperts(page, size);
+    @GetMapping("/delete/{id}")
+    public String deleteExpert(@PathVariable Long id) {
+        expertService.deleteExpert(id);
+        return "redirect:/";
     }
 
-    @GetMapping("/search")
+    /*@GetMapping("/search")
     @ResponseBody
     public List<ScientificExpert> searchExperts(
             @RequestParam("query") String query,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
         return expertService.searchExperts(query, page, size); // Пагинация в поиске
-    }
+    }*/
+
 
     @GetMapping("/download/{id}")
     public ResponseEntity<byte[]> downloadExpertFile(@PathVariable Long id) {

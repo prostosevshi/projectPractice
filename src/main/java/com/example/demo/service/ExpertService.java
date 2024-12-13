@@ -42,12 +42,12 @@ public class ExpertService {
         scientificExpertRepository.save(expert);
     }
 
-    public List<ScientificExpert> searchExperts(String keyword) {
+    /*public List<ScientificExpert> searchExperts(String keyword) {
         return scientificExpertRepository.findByNameContainingIgnoreCaseOrSurnameContainingIgnoreCaseOrScientifiсDirectionContainingIgnoreCaseOrSpecializationContainingIgnoreCase(
                 keyword, keyword, keyword, keyword);
-    }
+    }*/
 
-    // Пагинированный вывод всех экспертов
+    /*// Пагинированный вывод всех экспертов
     public List<ScientificExpert> getExperts(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         Page<ScientificExpert> expertsPage = scientificExpertRepository.findAll(pageable);
@@ -59,7 +59,7 @@ public class ExpertService {
         Pageable pageable = PageRequest.of(page, size);
         Page<ScientificExpert> expertsPage = scientificExpertRepository.searchByQuery(query, pageable);
         return expertsPage.getContent();
-    }
+    }*/
 
     // Метод для генерации PDF документа
     public byte[] generateExpertDocument(Long id) {

@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Создать данные</title>
+    <title>Добавить нового эксперта</title>
     <script>
         function showMessage(message) {
             const alertBox = document.getElementById('alert-box');
@@ -130,13 +130,10 @@
 
 <h1>Форма для добавления данных</h1>
 <form action="/save" method="post">
-    <label for="name">Имя:</label>
-    <input type="text" id="name" name="name" required>
+    <label for="fullName">Имя, фамилия эксперта:</label>
+    <input type="text" id="fullName" name="fullName" required>
 
-    <label for="surname">Фамилия:</label>
-    <input type="text" id="surname" name="surname" required>
-
-    <label for="scientifiсDirection">Научное направление:</label>
+    <label for="scientifiсDirection">Научное направление (ОЭСР):</label>
     <input type="text" id="scientifiсDirection" name="scientifiсDirection" required>
 
     <label for="specialization">Специализация:</label>

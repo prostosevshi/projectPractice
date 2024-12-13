@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Редактировать данные эксперта</title>
+    <title>Редактировать эксперт</title>
     <script>
         function showMessage(message) {
             const alertBox = document.getElementById('alert-box');
@@ -60,7 +60,7 @@
 
         button {
             padding: 10px;
-            background-color: #007bff;
+            background-color: #ff0044;
             border: none;
             border-radius: 4px;
             color: white;
@@ -70,7 +70,12 @@
         }
 
         button:hover {
-            background-color: #0056b3;
+            background-color: #b3001b;
+        }
+
+
+        button:hover {
+            background-color: #b3001b;
         }
 
         .homeButt {
@@ -79,7 +84,7 @@
             padding: 0; /* Убираем внутренние отступы */
             font-size: 16px; /* Размер текста */
             color: #fff;
-            background-color: #007bff;
+            background-color: #ff0044;
             border: none;
             cursor: pointer;
             transition: background-color 0.3s ease;
@@ -106,7 +111,7 @@
             background: none;
             box-shadow: none;
         }
-        </style>
+    </style>
 </head>
 <body>
 
@@ -114,9 +119,9 @@
     <button class="homeButt" type="submit"></button>
 </form>
 
-<h1>Редактировать данные эксперта</h1>
+<h1>Удалить эксперта</h1>
 
-<form th:action="@{/update/{id}(id=${expert.id})}" method="post">
+<form th:action="@{/findExperts/delete/{id}(id=${expert.id})}" method="post">
     <label for="fullName">Имя, фамилия эксперта:</label>
     <input type="text" id="fullName" name="fullName" th:value="${expert.fullName}" required>
 
@@ -126,7 +131,7 @@
     <label for="specialization">Специализация:</label>
     <input type="text" id="specialization" name="specialization" th:value="${expert.specialization}" required>
 
-    <button type="submit">Сохранить изменения</button>
+    <button type="submit">Удалить эксперта</button>
 </form>
 
 <script th:inline="javascript">
