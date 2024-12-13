@@ -5,6 +5,10 @@ import com.example.demo.repository.ScientificExpertRepository;
 import com.itextpdf.io.font.constants.StandardFonts;
 import com.itextpdf.kernel.font.PdfFont;
 import com.itextpdf.kernel.font.PdfFontFactory;
+import com.itextpdf.kernel.geom.PageSize;
+import com.itextpdf.layout.element.Cell;
+import com.itextpdf.layout.element.Table;
+import com.itextpdf.layout.properties.TextAlignment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -16,6 +20,7 @@ import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Paragraph;
 
+import java.awt.*;
 import java.io.ByteArrayOutputStream;
 import java.util.List;
 
@@ -77,10 +82,8 @@ public class ExpertService {
             PdfFont font = PdfFontFactory.createFont("src/main/resources/fonts/ARIAL.ttf");
 
             // Добавляем содержимое
-            document.add(new Paragraph("Эксперт ID: " + expert.getId()).setFont(font));
-            document.add(new Paragraph("Имя: " + expert.getName()).setFont(font));
-            document.add(new Paragraph("Фамилия: " + expert.getSurname()).setFont(font));
-            document.add(new Paragraph("Научное направление: " + expert.getScientifiсDirection()).setFont(font));
+            document.add(new Paragraph("Имя, фамилия эксперта: " + expert.getFullName()).setFont(font));
+            document.add(new Paragraph("Научное направление ОЭСР: " + expert.getScientifiсDirection()).setFont(font));
             document.add(new Paragraph("Специализация: " + expert.getSpecialization()).setFont(font));
 
             // Закрываем документ
@@ -92,4 +95,53 @@ public class ExpertService {
             throw new RuntimeException("Ошибка при создании PDF документа", e);
         }
     }
+
+    /*public byte[] generateExpertDocument(Long id) {
+        try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+
+            // Получаем объект эксперта
+            ScientificExpert expert = getExpertById(id);
+
+            // Создаем PDF-документ
+            PdfWriter writer = new PdfWriter(baos);
+            PdfDocument pdfDoc = new PdfDocument(writer);
+            Document document = new Document(pdfDoc);
+
+            // Загружаем шрифт, поддерживающий кириллицу (например, Arial)
+            PdfFont font = PdfFontFactory.createFont("src/main/resources/fonts/ARIAL.ttf");
+
+            // Заголовок
+            Paragraph title = new Paragraph("Данные эксперта")
+                    .setFont(font)
+                    .setFontSize(18)
+                    .setBold()
+                    .setTextAlignment(TextAlignment.CENTER)
+                    .setMarginBottom(20);
+            document.add(title);
+
+            // Создание таблицы с 2 столбцами
+            Table table = new Table(2);
+
+            // Настройка столбцов
+            table.addCell(new Cell().add(new Paragraph("Имя, фамилия эксперта").setFont(font).setBold()));
+            table.addCell(new Cell().add(new Paragraph(expert.getFullName()).setFont(font)));
+
+            table.addCell(new Cell().add(new Paragraph("Научное направление ОЭСР").setFont(font).setBold()));
+            table.addCell(new Cell().add(new Paragraph(expert.getScientifiсDirection()).setFont(font)));
+
+            table.addCell(new Cell().add(new Paragraph("Специализация").setFont(font).setBold()));
+            table.addCell(new Cell().add(new Paragraph(expert.getSpecialization()).setFont(font)));
+
+            // Добавляем таблицу в документ
+            document.add(table);
+
+            // Закрываем документ
+            document.close();
+
+            // Возвращаем байты PDF
+            return baos.toByteArray();
+        } catch (Exception e) {
+            throw new RuntimeException("Ошибка при создании PDF документа", e);
+        }
+    }*/
 }

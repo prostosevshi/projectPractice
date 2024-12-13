@@ -70,6 +70,7 @@ public class ScientificExpert {
     }
 
     public String getFullName() {
+        updateFullName();
         return fullName;
     }
 
