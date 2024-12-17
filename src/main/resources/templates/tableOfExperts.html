@@ -96,7 +96,7 @@
         .search-container button {
             padding: 8px 16px;
             font-size: 14px;
-            background-color: #28a745;
+            background-color: #007bff;
             border: none;
             border-radius: 4px;
             cursor: pointer;
@@ -104,7 +104,7 @@
         }
 
         .search-container button:hover {
-            background-color: #218838;
+            background-color: #0056b3;
         }
 
     </style>
@@ -195,18 +195,18 @@
 
 <!-- Контейнер с кнопками -->
 <div class="buttons-container">
-    <button onclick="loadExperts()">Загрузить данные</button>
+    <button onclick="loadExperts()">Показать все записи</button>
+    <form action="/addExperts" method="get">
+        <button type="submit">Добавить новую запись</button>
+    </form>
     <form id="editButton" method="get">
-        <button type="submit">Редактировать</button>
+        <button type="submit">Редактировать запись</button>
     </form>
     <form id="deleteButton" method="get">
-        <button type="submit">Удалить</button>
+        <button type="submit">Удалить запись</button>
     </form>
     <form id="downloadButton" method="get">
-        <button type="submit">Скачать</button>
-    </form>
-    <form action="/addExperts" method="get">
-        <button type="submit">Создать</button>
+        <button type="submit">Сохранить запись в формате pdf</button>
     </form>
 </div>
 
