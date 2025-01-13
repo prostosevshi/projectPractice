@@ -13,6 +13,6 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public String handleException(Exception ex, Model model) {
         model.addAttribute("message", ex.getMessage());
-        return "error"; // Вернёт кастомную страницу error.html
+        return "error";
     }
 }

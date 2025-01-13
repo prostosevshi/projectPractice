@@ -23,7 +23,7 @@ public class ScientificExpert {
     private String specialization;
 
     @Transient
-    @JsonProperty("fullName")  // Обеспечиваем правильное отображение при сериализации
+    @JsonProperty("fullName")
     private String fullName;
 
     // Геттеры и сеттеры
@@ -74,17 +74,15 @@ public class ScientificExpert {
         return fullName;
     }
 
-    // Логика для установки fullName и обновления name и surname
     public void setFullName(String fullName) {
         this.fullName = fullName;
         if (fullName != null) {
-            String[] parts = fullName.split(" ", 2); // Разделяем на имя и фамилию
+            String[] parts = fullName.split(" ", 2);
             this.name = parts[0];
-            this.surname = parts.length > 1 ? parts[1] : ""; // Если фамилия отсутствует, заполняем пустую строку
+            this.surname = parts.length > 1 ? parts[1] : "";
         }
     }
 
-    // Метод для обновления `fullName`, если изменяются name или surname
     private void updateFullName() {
         this.fullName = name + " " + surname;
     }

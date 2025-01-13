@@ -29,12 +29,11 @@ public class ExpertController {
     public String showEditForm(@PathVariable Long id, Model model) {
         ScientificExpert expert = expertService.getExpertById(id);
 
-        // Генерация fullName на основе имени и фамилии
         String fullName = expert.getName() + " " + expert.getSurname();
         expert.setFullName(fullName);
 
         model.addAttribute("expert", expert);
-        return "editExpert";  // Страница редактирования
+        return "editExpert";
     }
 
     @PostMapping("/update/{id}")
@@ -45,7 +44,7 @@ public class ExpertController {
         expert.setScientifiсDirection(scientifiсDirection);
         expert.setSpecialization(specialization);
 
-        expertService.saveExpert(expert);  // Сохраняем обновленные данные
+        expertService.saveExpert(expert);
         return "redirect:/";
     }
 
@@ -67,33 +66,28 @@ public class ExpertController {
 
     @GetMapping("/download/{id}")
     public ResponseEntity<byte[]> downloadExpertFile(@PathVariable Long id) {
-        // Получаем объект эксперта по id
+
         ScientificExpert expert = expertService.getExpertById(id);
 
         if (expert == null) {
-            // Если эксперт не найден, возвращаем ошибку 404
+
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        // Генерируем PDF-документ
         byte[] documentBytes = expertService.generateExpertDocument(id);
 
-        // Формируем имя файла для скачивания (используем имя, фамилию и специализацию)
         String filename = expert.getName() + "_" + expert.getSurname() + "_" + expert.getSpecialization() + ".pdf";
 
-        // Кодируем имя файла в UTF-8 для корректного отображения кириллицы
         try {
             filename = java.net.URLEncoder.encode(filename, "UTF-8").replaceAll("\\+", "%20");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
 
-        // Заголовки для ответа
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + filename + "\"");
         headers.add(HttpHeaders.CONTENT_TYPE, "application/pdf");
 
-        // Возвращаем файл с соответствующими заголовками
         return new ResponseEntity<>(documentBytes, headers, HttpStatus.OK);
     }
 

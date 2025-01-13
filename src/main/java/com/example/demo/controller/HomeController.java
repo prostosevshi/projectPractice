@@ -37,7 +37,6 @@ public class HomeController {
     public List<ScientificExpert> getExperts() {
         List<ScientificExpert> experts = expertService.getAllExperts();
 
-        // Обновляем fullName для каждого эксперта перед отправкой
         for (ScientificExpert expert : experts) {
             expert.setFullName(expert.getName() + " " + expert.getSurname());
         }

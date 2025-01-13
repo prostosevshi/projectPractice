@@ -35,7 +35,7 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            position: relative; /* Для позиционирования кнопки относительно родителя */
+            position: relative;
         }
 
         h1 {
@@ -86,35 +86,35 @@
         }
 
         .homeButt {
-            width: 50px; /* Ширина кнопки */
-            height: 50px; /* Высота кнопки */
-            padding: 0; /* Убираем внутренние отступы */
-            font-size: 16px; /* Размер текста */
+            width: 50px;
+            height: 50px;
+            padding: 0;
+            font-size: 16px;
             color: #fff;
             background-color: #007bff;
             border: none;
             cursor: pointer;
             transition: background-color 0.3s ease;
-            position: absolute; /* Абсолютное позиционирование */
-            top: 20px; /* Отступ от верхней границы */
-            left: 20px; /* Отступ от левой границы */
-            border-radius: 50%; /* Скругленные углы для создания круга */
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            border-radius: 50%;
         }
 
         .homeButt:before {
-            content: "🏠"; /* Иконка дома */
+            content: "🏠";
             font-size: 24px;
             display: block;
             text-align: center;
-            line-height: 50px; /* Центрируем иконку внутри кнопки */
+            line-height: 50px;
         }
 
         .homeForm {
-            position: absolute; /* Абсолютное позиционирование */
-            top: 20px; /* Отступ от верхней границы */
-            left: 20px; /* Отступ от левой границы */
-            width: 50px; /* Ширина кнопки */
-            height: 50px; /* Высота кнопки */
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 50px;
+            height: 50px;
             background: none;
             box-shadow: none;
         }
@@ -143,7 +143,6 @@
 </form>
 
 <script th:inline="javascript">
-    /*[[${successMessage}]] позволяет вставить сообщение из модели */
     const successMessage = /*[[${successMessage}]]*/ '';
     if (successMessage) {
         showMessage(successMessage);

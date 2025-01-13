@@ -9,7 +9,7 @@
             background-color: #f4f4f9;
             margin: 0;
             padding: 20px;
-            padding-bottom: 80px; /* Чтобы не перекрывать кнопки при прокрутке */
+            padding-bottom: 80px;
         }
 
         h1 {
@@ -63,7 +63,6 @@
             background-color: #d1ecf1;
         }
 
-        /* Позиционирование кнопок внизу */
         .buttons-container {
             position: fixed;
             bottom: 20px;
@@ -79,7 +78,6 @@
             margin: 0;
         }
 
-        /* Стиль для поля поиска */
         .search-container {
             text-align: center;
             margin-bottom: 20px;
@@ -111,7 +109,6 @@
     <script>
         let selectedRow = null;
 
-        // Загрузка данных экспертов
         async function loadExperts() {
             const resultsDiv = document.getElementById('results');
             try {
@@ -130,7 +127,6 @@
             }
         }
 
-        // Обновление таблицы с данными
         function updateTable(experts) {
             const resultsDiv = document.getElementById('results');
             resultsDiv.innerHTML = experts.map(expert => `
@@ -142,7 +138,6 @@
             `).join('');
         }
 
-        // Выбор строки
         function selectRow(row, expertId) {
             if (selectedRow) {
                 selectedRow.classList.remove('selected');
@@ -150,13 +145,11 @@
             row.classList.add('selected');
             selectedRow = row;
 
-            // Обновление URL для кнопок
             document.getElementById('editButton').action = `/edit/${expertId}`;
             document.getElementById('deleteButton').action = `/delete/${expertId}`;
             document.getElementById('downloadButton').action = `/download/${expertId}`;
         }
 
-        // Функция для поиска
         function searchExperts() {
             const searchTerm = document.getElementById('searchInput').value.toLowerCase();
             const rows = document.querySelectorAll('#results tr');
