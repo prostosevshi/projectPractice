@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
@@ -18,19 +19,8 @@ public class HomeController {
     ExpertService expertService;
 
     @GetMapping("/")
-    public String index(Model model) {
-        model.addAttribute("name", "человек");
-        return "home";
-    }
-
-    @GetMapping("/addExperts")
-    public String showCreateForm() {
-        return "createForm";
-    }
-
-    @GetMapping("/findExperts")
     public String showExperts(Model model, @RequestParam(required = false) String keyword) {
-        List<ScientificExpert> experts;
+        /*List<ScientificExpert> experts;
         if (keyword != null && !keyword.isEmpty()) {
             experts = expertService.searchExperts(keyword);
         } else {
@@ -38,8 +28,20 @@ public class HomeController {
         }
 
         model.addAttribute("experts", experts);
-        model.addAttribute("keyword", keyword);
+        model.addAttribute("keyword", keyword);*/
         return "tableOfExperts";
+    }
+
+    @GetMapping("/experts")
+    @ResponseBody
+    public List<ScientificExpert> getExperts() {
+        List<ScientificExpert> experts = expertService.getAllExperts();
+
+        for (ScientificExpert expert : experts) {
+            expert.setFullName(expert.getName() + " " + expert.getSurname());
+        }
+
+        return experts;
     }
 
 

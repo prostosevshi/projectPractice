@@ -13,7 +13,7 @@ import java.util.List;
 @Repository
 public interface ScientificExpertRepository extends JpaRepository<ScientificExpert, Long> {
 
-    List<ScientificExpert> findByNameContainingIgnoreCaseOrSurnameContainingIgnoreCaseOrScientifiсDirectionContainingIgnoreCaseOrSpecializationContainingIgnoreCase(
+    /*List<ScientificExpert> findByNameContainingIgnoreCaseOrSurnameContainingIgnoreCaseOrScientifiсDirectionContainingIgnoreCaseOrSpecializationContainingIgnoreCase(
             String name, String surname, String scientifiсDirection, String specialization);
 
     @Query("SELECT e FROM ScientificExpert e " +
@@ -21,6 +21,6 @@ public interface ScientificExpertRepository extends JpaRepository<ScientificExpe
             "OR LOWER(e.surname) LIKE LOWER(CONCAT('%', :query, '%')) " +
             "OR LOWER(e.scientifiсDirection) LIKE LOWER(CONCAT('%', :query, '%')) " +
             "OR LOWER(e.specialization) LIKE LOWER(CONCAT('%', :query, '%'))")
-    Page<ScientificExpert> searchByQuery(@Param("query") String query, Pageable pageable);
+    Page<ScientificExpert> searchByQuery(@Param("query") String query, Pageable pageable);*/
 }
 

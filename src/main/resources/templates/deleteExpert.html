@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Добавить нового эксперта</title>
+    <title>Редактировать эксперт</title>
     <script>
         function showMessage(message) {
             const alertBox = document.getElementById('alert-box');
@@ -14,18 +14,6 @@
         }
     </script>
     <style>
-        #alert-box {
-            display: none;
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background-color: #4CAF50;
-            color: white;
-            padding: 15px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-            z-index: 1000;
-        }
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f9;
@@ -72,7 +60,7 @@
 
         button {
             padding: 10px;
-            background-color: #007bff;
+            background-color: #ff0044;
             border: none;
             border-radius: 4px;
             color: white;
@@ -82,7 +70,12 @@
         }
 
         button:hover {
-            background-color: #0056b3;
+            background-color: #b3001b;
+        }
+
+
+        button:hover {
+            background-color: #b3001b;
         }
 
         .homeButt {
@@ -91,7 +84,7 @@
             padding: 0;
             font-size: 16px;
             color: #fff;
-            background-color: #007bff;
+            background-color: #ff0044;
             border: none;
             cursor: pointer;
             transition: background-color 0.3s ease;
@@ -122,24 +115,23 @@
 </head>
 <body>
 
-<div id="alert-box"></div>
-
 <form class="homeForm" action="/" method="get">
     <button class="homeButt" type="submit"></button>
 </form>
 
-<h1>Форма для добавления данных</h1>
-<form action="/save" method="post">
+<h1>Удалить эксперта</h1>
+
+<form th:action="@{/findExperts/delete/{id}(id=${expert.id})}" method="post">
     <label for="fullName">Имя, фамилия эксперта:</label>
-    <input type="text" id="fullName" name="fullName" required>
+    <input type="text" id="fullName" name="fullName" th:value="${expert.fullName}" required>
 
     <label for="scientifiсDirection">Научное направление (ОЭСР):</label>
-    <input type="text" id="scientifiсDirection" name="scientifiсDirection" required>
+    <input type="text" id="scientifiсDirection" name="scientifiсDirection" th:value="${expert.scientifiсDirection}" required>
 
     <label for="specialization">Специализация:</label>
-    <input type="text" id="specialization" name="specialization" required>
+    <input type="text" id="specialization" name="specialization" th:value="${expert.specialization}" required>
 
-    <button type="submit">Сохранить</button>
+    <button type="submit">Удалить эксперта</button>
 </form>
 
 <script th:inline="javascript">

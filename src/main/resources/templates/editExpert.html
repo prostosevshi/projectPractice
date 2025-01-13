@@ -2,7 +2,17 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Редактировать эксперт</title>
+    <title>Редактировать данные эксперта</title>
+    <script>
+        function showMessage(message) {
+            const alertBox = document.getElementById('alert-box');
+            alertBox.innerText = message;
+            alertBox.style.display = 'block';
+            setTimeout(() => {
+                alertBox.style.display = 'none';
+            }, 3000);
+        }
+    </script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -13,7 +23,7 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            position: relative; /* Для позиционирования кнопки относительно родителя */
+            position: relative;
         }
 
         h1 {
@@ -62,20 +72,55 @@
         button:hover {
             background-color: #0056b3;
         }
+
+        .homeButt {
+            width: 50px;
+            height: 50px;
+            padding: 0;
+            font-size: 16px;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            border-radius: 50%;
+        }
+
+        .homeButt:before {
+            content: "🏠";
+            font-size: 24px;
+            display: block;
+            text-align: center;
+            line-height: 50px;
+        }
+
+        .homeForm {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 50px;
+            height: 50px;
+            background: none;
+            box-shadow: none;
+        }
         </style>
 </head>
 <body>
 
+<form class="homeForm" action="/" method="get">
+    <button class="homeButt" type="submit"></button>
+</form>
+
 <h1>Редактировать данные эксперта</h1>
 
-<form th:action="@{/findExperts/update/{id}(id=${expert.id})}" method="post">
-    <label for="name">Имя:</label>
-    <input type="text" id="name" name="name" th:value="${expert.name}" required>
+<form th:action="@{/update/{id}(id=${expert.id})}" method="post">
+    <label for="fullName">Имя, фамилия эксперта:</label>
+    <input type="text" id="fullName" name="fullName" th:value="${expert.fullName}" required>
 
-    <label for="surname">Фамилия:</label>
-    <input type="text" id="surname" name="surname" th:value="${expert.surname}" required>
-
-    <label for="scientifiсDirection">Научное направление:</label>
+    <label for="scientifiсDirection">Научное направление (ОЭСР):</label>
     <input type="text" id="scientifiсDirection" name="scientifiсDirection" th:value="${expert.scientifiсDirection}" required>
 
     <label for="specialization">Специализация:</label>
@@ -83,6 +128,13 @@
 
     <button type="submit">Сохранить изменения</button>
 </form>
+
+<script th:inline="javascript">
+    const successMessage = /*[[${successMessage}]]*/ '';
+    if (successMessage) {
+        showMessage(successMessage);
+    }
+</script>
 
 </body>
 </html>
